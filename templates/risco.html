@@ -1,0 +1,71 @@
+{% extends "template.html" %}
+
+{% block title %}Incerteza{% endblock %}
+
+{% block conteudo %}
+
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">
+          <strong>Incerteza</strong>
+        </div>
+        <div class="card-body">
+            <form method="POST" autocomplete="off" action="{{ url_for('vme') }}">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="num_investimentos">Número de Investimentos: </label>
+                    <input type="number" class="form-control" name="num_investimentos" placeholder="0">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="num_cenarios">Número de Cenários: </label>
+                    <input type="number" class="form-control" name="num_cenarios" placeholder="0">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="{{ url_for('index') }}" class="btn btn-danger">Voltar</a>
+            </form>
+        </div>
+      </div>
+
+
+    {% if num_investimentos %}
+        
+        <div class="form-group">
+        
+        <form action="{{ url_for('vme_input') }}" method="POST" autocomplete="off">
+
+        <input type="hidden" name="num_investimentos" value="{{ num_investimentos }}">
+        <input type="hidden" name="num_cenarios" value="{{ num_cenarios }}">    
+
+            <table class="table table-dark">
+                <tbody>
+                    <tr>
+                        <th></th>
+                        {% for i in range(num_cenarios) %}
+                            <th>%C{{ i+1 }}<input type="number" name="risco_cenario{{i}}" step="0.01" min="0" max="10"></th>
+                        {%  endfor %}
+                    </tr>
+                    {% for i in range(num_investimentos) %}
+                    <tr>
+                                <th>Inv {{i+1}}</th>
+                            {% for j in range(num_cenarios) %}
+                                <th><input type="number" name="investimentos{{i}}{{j}}"></th>
+                            {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+        </div>
+
+    {% endif %}
+
+    
+
+</div>
+
+{% endblock %}

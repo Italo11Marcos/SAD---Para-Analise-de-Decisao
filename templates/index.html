@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+
+{% block title %}Pagina principal{% endblock %}
+
+{% block conteudo %}
+
+<div class="container">
+
+    <div class="card">
+        <h5 class="card-header">SAD - Apoio a Decisão</h5>
+        <div class="card-body">
+          <h5 class="card-title">Escolha o tipo do seu ambiente de decisão: </h5>
+          <a href="{{ url_for('incerteza') }}" class="btn btn-primary">Risco</a>
+          <a href="{{ url_for('risco') }}" class="btn btn-primary">Incerteza</a>
+        </div>
+    </div>
+
+    
+</div>
+
+{% endblock %}

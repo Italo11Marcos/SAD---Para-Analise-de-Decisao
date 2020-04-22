@@ -1,0 +1,69 @@
+{% extends "template.html" %}
+
+{% block title %}Maxmin{% endblock %}
+
+{% block conteudo %}
+
+<div class="container">
+
+    <div class="card">
+
+        <table class="table table-dark">
+            <tbody>
+                <tr>
+                    <th></th>
+                    {% for i in range(num_cenarios) %}
+                        <th>C{{ i+1 }}({{ risco_cenario[i] }}%)</th>
+                    {%  endfor %}
+                    <th>MaxiMax</th>
+                    <th>MaxiMin</th>
+                    <th>Leplace</th>
+                    <th>Hurwicz</th>
+                </tr>
+                {% for i in range(num_investimentos) %}
+                <tr>
+                            <th>Inv {{ i+1 }}</th>
+                        {% for j in range(num_cenarios) %}
+                            <th>{{ matriz[i][j] }}</th>
+                        {% endfor %}
+                            <th>{{ maxInRows[i] }}</th>
+                            <th>{{ minInRows[i] }}</th>
+                            <th>{{ laplace[i] }}</th>
+                            <th>{{ hurwicz[i] }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <table class="table table-dark">
+            <tbody>
+                <tr>
+                    <th colspan="{{ num_cenarios + 1 }}">Custos de Oportunidade</th>
+                    <th>MAIORES</th>
+                </tr>
+                {% for i in range(num_investimentos) %}
+                <tr>
+                            <th>Inv {{ i+1 }}</th>
+                        {% for j in range(num_cenarios) %}
+                            {% if vetorMAIORES[i][j] == 0.0 %}
+                            <th> - </th>
+                            {% else %}
+                            <th>{{ vetorMAIORES[i][j]  }}</th>
+                            {% endif %}
+                        {% endfor %}
+                        {% if lista_maiores[i] == menor_lista_maior %}
+                            <th> {{ lista_maiores[i] }} <strong> == Menor</strong> </th>
+                        {% else %}
+                            <th> {{ lista_maiores[i] }} </th>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "template.html" %}
+
+{% block title %}VME{% endblock %}
+
+{% block conteudo %}
+
+<div class="container">
+
+    <div class="card">
+
+        <table class="table table-dark">
+            <tbody>
+                <tr>
+                    <th></th>
+                    {% for i in range(num_cenarios) %}
+                        <th>C{{ i+1 }}({{ risco_cenario[i] }}%)</th>
+                    {%  endfor %}
+                    <th>VME</th>
+                </tr>
+                {% for i in range(num_investimentos) %}
+                <tr>
+                            <th>Inv {{ i+1 }}</th>
+                        {% for j in range(num_cenarios) %}
+                            <th>{{ matriz[i][j] }}</th>
+                        {% endfor %}
+                            <th>{{ inv[i] }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p><strong>
+            Logo, o Investimento {{indece_melhor_investimento}} é o mais indicado.
+        </strong></p>
+
+        <table class="table table-dark">
+            <tbody>
+                <tr>
+                    <th colspan="{{ num_cenarios + 1 }}">Custos de Oportunidade</th>
+                    <th>Perdas Ponderadas</th>
+                </tr>
+                {% for i in range(num_investimentos) %}
+                <tr>
+                            <th>Inv {{ i+1 }}</th>
+                        {% for j in range(num_cenarios) %}
+                            {% if POE[i][j] == 0.0 %}
+                            <th> - </th>
+                            {% else %}
+                            <th>{{ POE[i][j]  }}</th>
+                            {% endif %}
+                        {% endfor %}
+                        {% if perdas_ponderadas[i] == menor_perda_ponderada %}
+                            <th> {{ perdas_ponderadas[i] }} <strong> == Menor</strong> </th>
+                        {% else %}
+                            <th> {{ perdas_ponderadas[i] }} </th>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-dark">
+            <tbody>
+                <th>Inv.Perf</th>
+                {% for inv in investimento_perfeito %}
+                    <th>{{ inv }}</th>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-dark">
+            <tbody>
+                <th>Inv.Perf.Pond</th>
+                {% for inv in investimento_perfeito_ponderado %}
+                    <th>{{ inv }}</th>
+                {% endfor %}
+                <th><strong>{{ total_investimentos_perfeito_ponderado }}</strong></th>
+            </tbody>
+        </table>
+
+        <p><strong>VEIP=Inf.Perf.Pond - Maior(VME) </strong></p>
+
+        <p><strong>VEIP = {{total_investimentos_perfeito_ponderado}} - {{melhor_investimento}}</strong></p>
+
+        <p><strong>VEIP = {{ VEIP }}</strong></p>
+
+    </div>
+
+</div>
+
+{% endblock %}
